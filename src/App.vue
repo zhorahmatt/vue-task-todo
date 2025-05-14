@@ -2,6 +2,7 @@
 import { ref } from 'vue';
 import TaskForm from './components/TaskForm.vue';
 import type { Task } from './types';
+import TaskList from './components/TaskList.vue';
 
 const message = ref("Task App");
 const tasks = ref<Task[]>([]);
@@ -18,7 +19,9 @@ function addTask(newTask: string) {
   <main>
     <h1>{{ message }}</h1>
     <TaskForm @add-task="addTask"/>
-    <h3>There are {{ tasks.length }} tasks.</h3>
+    <h3 v-if="!tasks.length">Add task to get started</h3>
+    <h3 v-else>0 / {{tasks.length}} tasks completed</h3>
+    <TaskList :tasks="tasks"/>
   </main>
 </template>
 
