@@ -4,11 +4,26 @@ import type { Task } from '../types';
 const props = defineProps<{
     tasks: Task[]
 }>();
+
+const emits = defineEmits<{
+    toggleDone: [id: string];
+    removeTask: [id: string];
+}>();
 </script>
 <template>
     <div class="task-list">
-        <article v-for="task in props.tasks" :key="task.id">
-          {{ task.title }}
+        <article v-for="task in props.tasks" :key="task.id" class="task">
+            <label for="">
+                <input 
+                    @input="emits('toggleDone', task.id)"
+                    type="checkbox"
+                    :checked="task.done"
+                >
+                <span :class="{ done: task.done }">
+                    {{ task.title }}
+                </span>
+            </label>
+            <button @click="emits('removeTask', task.id)" class="outline">Remove</button>
         </article>
     </div>
 </template>
@@ -16,5 +31,15 @@ const props = defineProps<{
 <style>
 .task-list {
     margin-top: 1rem;
+}
+
+.done {
+    text-decoration: line-through;
+}
+
+.task {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 </style>
