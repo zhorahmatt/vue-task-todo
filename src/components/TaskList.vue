@@ -11,7 +11,7 @@ const emits = defineEmits<{
 }>();
 </script>
 <template>
-    <div class="task-list">
+    <TransitionGroup name="list" tag="div" class="task-list">
         <article v-for="task in props.tasks" :key="task.id" class="task">
             <label for="">
                 <input 
@@ -25,7 +25,7 @@ const emits = defineEmits<{
             </label>
             <button @click="emits('removeTask', task.id)" class="outline">Remove</button>
         </article>
-    </div>
+    </TransitionGroup>
 </template>
 
 <style>
@@ -41,5 +41,15 @@ const emits = defineEmits<{
     display: flex;
     align-items: center;
     justify-content: space-between;
+}
+
+.list-enter-active,
+.list-leave-active {
+  transition: all 0.5s ease;
+}
+.list-enter-from,
+.list-leave-to {
+  opacity: 0;
+  transform: translateX(300px);
 }
 </style>
